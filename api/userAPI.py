@@ -55,13 +55,16 @@ def temperature(city):
         city_info = user_Ref.document(city).get().to_dict()
         lat = city_info['lat']
         long = city_info['long']
-        temp = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&hourly=temperature_180m&start_date=2022-12-11&end_date=2022-12-11")
+        temp = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&hourly=temperature_180m&current_weather=true&start_date=2022-12-11&end_date=2022-12-11")
         contents = json.loads(temp.text)
         max_temp = max(contents['hourly']['temperature_180m'])
         min_temp = min(contents['hourly']['temperature_180m'])
+        current_temp = contents['current_weather']['temperature']
         print(max_temp)
         print(min_temp)
-        s = f"Today's forecast:\n\nMax temperature: {max_temp} \nMin temperature: {min_temp}"
+        s = f"Today's forecast:\n\nCurrent temperature: {current_temp} \nMax temperature: {max_temp} \nMin temperature: {min_temp}"
         return s, 200
     except Exception as e:
         return f"An Error Occured: {e}"
+
+
