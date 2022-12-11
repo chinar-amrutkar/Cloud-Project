@@ -1,6 +1,7 @@
 import uuid
 from flask import Blueprint, request, jsonify
 from firebase_admin import firestore
+import requests, json
 
 db = firestore.client()
 user_Ref = db.collection('user')
@@ -47,3 +48,20 @@ def createCity():
         return jsonify({"Success": True}), 200
     except Exception as e:
         return f"An error eccured: {e}"
+
+@userAPI.route('/temp/<city>')
+def temperature(city):
+    try:
+        city_info = user_Ref.document(city).get().to_dict()
+        lat = city_info['lat']
+        long = city_info['long']
+        temp = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&hourly=temperature_180m&start_date=2022-12-11&end_date=2022-12-11")
+        contents = json.loads(temp.text)
+        max_temp = max(contents['hourly']['temperature_180m'])
+        min_temp = min(contents['hourly']['temperature_180m'])
+        print(max_temp)
+        print(min_temp)
+        s = f"Today's forecast:\n\nMax temperature: {max_temp} \nMin temperature: {min_temp}"
+        return s, 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
