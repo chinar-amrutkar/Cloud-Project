@@ -34,3 +34,16 @@ def delete(id):
         return jsonify({"Success": True}), 200
     except Exception as e:
         return f"An error eccured: {e}"
+
+
+
+
+@userAPI.route('/addCity', methods = ['POST'])
+def createCity():
+    try:
+        data=request.json
+        #print(data['id'])
+        user_Ref.document(str(data['city'])).set(request.json)
+        return jsonify({"Success": True}), 200
+    except Exception as e:
+        return f"An error eccured: {e}"
