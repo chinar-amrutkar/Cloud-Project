@@ -68,3 +68,22 @@ def temperature(city):
         return f"An Error Occured: {e}"
 
 
+@userAPI.route('/wind/<city>')
+def wind_speed(city):
+    try:
+        city_info = user_Ref.document(city).get().to_dict()
+        lat = city_info['lat']
+        long = city_info['long']
+        temp = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&hourly=windspeed_180m,winddirection_180m&current_weather=true&start_date=2022-12-11&end_date=2022-12-11")
+        contents = json.loads(temp.text)
+        max_wind = max(contents['hourly']['windspeed_180m'])
+        min_wind = min(contents['hourly']['windspeed_180m'])
+        current_wind = contents['current_weather']['windspeed']
+        print(max_wind)
+        print(min_wind)
+        s = f"Today's forecast:\n\nCurrent windspeed: {current_wind} \nMax windspeed: {max_wind} \nMin windspeed: {min_wind}"
+        return s, 200
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
