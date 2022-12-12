@@ -2,6 +2,27 @@ import uuid
 from flask import Blueprint, request, jsonify
 from firebase_admin import firestore
 import requests, json
+import pyrebase
+
+#Configure and Connext to Firebase
+
+firebaseConfig = {'apiKey': "AIzaSyCXlq5A74zvInW9V70glrzbB8HqhjFfOSU",
+                  'authDomain': "spry-notch-364712.firebaseapp.com",
+                  'databaseURL': "https://spry-notch-364712.firebaseio.com",
+                  'projectId': "spry-notch-364712",
+                  'storageBucket': "spry-notch-364712.appspot.com",
+                  'messagingSenderId': "903481717172",
+                  'appId': "1:903481717172:web:8fef7e9081decff89542e1"}
+
+hash_config =  {'algorithm': "SCRYPT",
+                'base64_signer_key': "JVwQhI8DnfoEBmsBv6nWpMPn17zQqX+ofwG5MUK64KNO0SWCDU8c3xUWCKRdfQ9JJpPiLXJkUy30VH0K5+fMHQ==",
+                'base64_salt_separator': "Bw==",
+                'rounds': "8",
+                'mem_cost': "14"
+                }
+
+firebase=pyrebase.initialize_app(firebaseConfig)
+auth=firebase.auth()
 
 db = firestore.client()
 user_Ref = db.collection('user')
@@ -106,3 +127,44 @@ def smart_assist(city):
         return f"An Error Occured: {e}"
 
 
+@userAPI.route('/auth')
+def user_auth():
+    try:
+        data=request.json
+        email = data['email']
+        password = data['password']
+
+        def login():
+            print("Log in...")
+            #email=input("Enter email: ")
+            #password=input("Enter password: ")
+            try:
+                login = auth.sign_in_with_email_and_password(email, password)
+                print("Successfully logged in!")
+                #print(auth.get_account_info(login['idToken']))
+                email1 = auth.get_account_info(login['idToken'])['users'][0]['email']
+                print(email1)
+            except Exception as e:
+                print(f"Invalid email or password")
+
+        def signup():
+            print("Sign up...")
+            #email = input("Enter email: ")
+            #password=input("Enter password: ")
+            try:
+                user = auth.create_user_with_email_and_password(email, password)
+                print("Successfully signed up!")
+                #ask=input("Do you want to login?[y/n]")
+                #if ask=='y':
+                #    login()
+            except: 
+                print("Email already exists")
+
+        if (data['existing']=="True"):
+            login()
+        else:
+            signup()
+        
+        return jsonify({"Success": True}), 200
+    except Exception as e:
+        return f"An error eccured: {e}"
