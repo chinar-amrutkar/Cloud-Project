@@ -33,7 +33,6 @@ userAPI = Blueprint('userAPI', __name__)
 def create():
     try:
         data=request.json
-        #print(data['id'])
         user_Ref.document(str(data['id'])).set(request.json)
         return jsonify({"Success": True}), 200
     except Exception as e:
@@ -64,7 +63,6 @@ def delete(id):
 def createCity():
     try:
         data=request.json
-        #print(data['id'])
         user_Ref.document(str(data['city'])).set(request.json)
         return jsonify({"Success": True}), 200
     except Exception as e:
@@ -136,12 +134,9 @@ def user_auth():
 
         def login():
             print("Log in...")
-            #email=input("Enter email: ")
-            #password=input("Enter password: ")
             try:
                 login = auth.sign_in_with_email_and_password(email, password)
                 print("Successfully logged in!")
-                #print(auth.get_account_info(login['idToken']))
                 email1 = auth.get_account_info(login['idToken'])['users'][0]['email']
                 print(email1)
             except Exception as e:
@@ -149,14 +144,9 @@ def user_auth():
 
         def signup():
             print("Sign up...")
-            #email = input("Enter email: ")
-            #password=input("Enter password: ")
             try:
                 user = auth.create_user_with_email_and_password(email, password)
                 print("Successfully signed up!")
-                #ask=input("Do you want to login?[y/n]")
-                #if ask=='y':
-                #    login()
             except: 
                 print("Email already exists")
 
