@@ -36,7 +36,7 @@ def create():
         user_Ref.document(str(data['id'])).set(request.json)
         return jsonify({"Success": True}), 200
     except Exception as e:
-        return f"An error eccured: {e}"
+        return f"An error Occured: {e}"
 
 
 @userAPI.route('/list')
@@ -54,7 +54,7 @@ def delete(id):
         user_Ref.document(id).delete()
         return jsonify({"Success": True}), 200
     except Exception as e:
-        return f"An error eccured: {e}"
+        return f"An error Occured: {e}"
 
 
 
@@ -66,7 +66,7 @@ def createCity():
         user_Ref.document(str(data['city'])).set(request.json)
         return jsonify({"Success": True}), 200
     except Exception as e:
-        return f"An error eccured: {e}"
+        return f"An error Occured: {e}"
 
 @userAPI.route('/temp/<city>')
 def temperature(city):
@@ -157,4 +157,4 @@ def user_auth():
         
         return jsonify({"Success": True}), 200
     except Exception as e:
-        return f"An error eccured: {e}"
+        return f"An error Occured: {e}"
