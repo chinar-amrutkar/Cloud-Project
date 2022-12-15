@@ -11,8 +11,7 @@ Smart Weather is a set of REST APIs interacting with the Open Meteo weather API 
 
 ## Architecture
 
-insert image here!!!!!!!!!
-
+![Smart Weather Architecture](https://github.com/chinar-amrutkar/Cloud-Project/blob/master/Smart%20Weather%20Architecture.drawio.png "Smart Weather Architecture")
 
 ## 1. Dynamic REST API
 
