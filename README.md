@@ -24,7 +24,7 @@ We are then displaying this information in the form of a JSON response, using th
 
 
 
-**Create Operation - adds a user to our database**
+**Create Operation - adds a user to our database** 
 
 
 
@@ -199,4 +199,16 @@ We are using Google's Firebase to store persistent information about users and c
 ### Serving application over HTTPS
 Our application supports connection through HTTPS protocol.  The certificate is securely stored on the local machine used to run the code.
 
+## 5. How to Run
 
+The code can be run simply by running the following in the project folder directory:
+
+```
+python3 main.py
+```
+
+The sever starts running on the localhost once the command is successfully executed. 
+
+The REST APIs used in the code can be used using Postman. 
+
+Using the application along with Postman can be seen in the video at the top of the README.
