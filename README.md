@@ -198,6 +198,32 @@ We are using Google's Firebase to store persistent information about users and c
 ### Serving application over HTTPS
 Our application supports connection through HTTPS protocol.  The certificate is securely stored on the local machine used to run the code.
 
+```
+from api import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(ssl_context=('cert.pem', 'key.pem'), debug = True)
+    
+```
+
+
+### User accounts and access management with hash-based authentication
+Users can signup and login into their accounts. All user passwords are stored using SCRYPT hashing. User data is stored securely in Firebase Authentication system.
+
+```
+hash_config =  {'algorithm': "SCRYPT",
+                'base64_signer_key': "JVwQhI8DnfoEBmsBv6nWpMPn17zQqX+ofwG5MUK64KNO0SWCDU8c3xUWCKRdfQ9JJpPiLXJkUy30VH0K5+fMHQ==",
+                'base64_salt_separator': "Bw==",
+                'rounds': "8",
+                'mem_cost': "14"
+                }
+```
+
+
+
+
 ## 5. How to Run
 
 The code can be run simply by running the following in the project folder directory:
